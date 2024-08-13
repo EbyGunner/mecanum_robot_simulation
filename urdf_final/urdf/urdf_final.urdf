@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<robot name="urdf_final" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="material.xacro" />
+
+  <link name="chasis">
+    <inertial>
+      <origin xyz="-8.294E-05 -7.7011E-11 -0.023972" rpy="0 0 0" />
+      <mass value="6.5996" />
+      <inertia ixx="0.043356" ixy="-1.6809E-08" ixz="-1.7057E-07" iyy="0.13461" iyz="3.8673E-11" izz="0.17533" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/chasis.STL" />
+      </geometry>
+      <material name="blue" />
+    </visual>  
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/chasis.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="back_right_wheel">
+    <inertial>
+      <origin xyz="1.624E-12 -3.4926E-12 0.021031" rpy="0 0 0" />
+      <mass value="0.049871" />
+      <inertia ixx="5.3189E-06" ixy="1.2084E-15" ixz="-9.388E-17" iyy="5.3189E-06" iyz="1.994E-16" izz="6.4396E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/back_right_wheel.STL" />
+      </geometry>
+      <material name="red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/back_right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="back_right_wheel" type="continuous">
+    <origin xyz="0.1175 0.113 -0.03" rpy="1.5708 -0.55618 3.1416" />
+    <parent link="chasis" />
+    <child link="back_right_wheel" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14" upper="3.14" effort="200" velocity="5" />
+  </joint>
+
+  <link name="back_left_wheel">
+    <inertial>
+      <origin xyz="-6.2922E-13 3.7938E-12 0.021031" rpy="0 0 0" />
+      <mass value="0.049871" />
+      <inertia ixx="5.3189E-06" ixy="5.4099E-16" ixz="3.9906E-17" iyy="5.3189E-06" iyz="-2.1312E-16" izz="6.4396E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/back_left_wheel.STL" />
+      </geometry>
+      <material name="green" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/back_left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="back_left_wheel" type="continuous">
+    <origin xyz="0.1175 -0.113 -0.03" rpy="-1.5708 -1.0094 3.1416" />
+    <parent link="chasis" />
+    <child link="back_left_wheel" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14" upper="3.14" effort="200" velocity="5" />
+  </joint>
+
+  <link name="front_right_wheel">
+    <inertial>
+      <origin xyz="-6.2939E-13 3.7953E-12 0.021031" rpy="0 0 0" />
+      <mass value="0.049871" />
+      <inertia ixx="5.3189E-06" ixy="5.4109E-16" ixz="3.6773E-17" iyy="5.3189E-06" iyz="-2.1556E-16" izz="6.4396E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/front_right_wheel.STL" />
+      </geometry>
+      <material name="brown" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/front_right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="front_right_wheel" type="continuous">
+    <origin xyz="-0.1175 0.113 -0.03" rpy="1.5708 0.55618 3.1416" />
+    <parent link="chasis" />
+    <child link="front_right_wheel" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14" upper="3.14" effort="200" velocity="5" />
+  </joint>
+
+  <link name="front_left_wheel">
+    <inertial>
+      <origin xyz="1.451E-12 -3.5752E-12 0.021031" rpy="0 0 0" />
+      <mass value="0.049871" />
+      <inertia ixx="5.3189E-06" ixy="1.1259E-15" ixz="-8.0856E-17" iyy="5.3189E-06" iyz="2.0104E-16" izz="6.4396E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/front_left_wheel.STL" />
+        <material name="violet" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/gunner/mecanum_robot_ws/src/robot_package/urdf_final/meshes/front_left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="front_left_wheel" type="continuous">
+    <origin xyz="-0.1175 -0.113 -0.03" rpy="-1.5708 1.3416 3.1416" />
+    <parent link="chasis" />
+    <child link="front_left_wheel" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14" upper="3.14" effort="200" velocity="5" />
+  </joint>
+</robot>
