@@ -27,4 +27,7 @@ install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
   )
 
+install(DIRECTORY urdf_final/meshes/
+      DESTINATION share/${PROJECT_NAME}/urdf_final/meshes)
+
 ament_package()
