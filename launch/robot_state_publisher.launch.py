@@ -13,11 +13,11 @@ def generate_launch_description():
 
     # Specify the name of the package and path to xacro file within the package
     pkg_name = 'robot_package'
-    file_subpath = 'urdf/urdf'
+    urdf_file_subpath = 'description/urdf'
 
 
     # Use xacro to process the file
-    xacro_file = os.path.join(get_package_share_directory(pkg_name), file_subpath, 'urdf_final.urdf')
+    xacro_file = os.path.join(get_package_share_directory(pkg_name), urdf_file_subpath, 'urdf_final.urdf')
     robot_description_raw = xacro.process_file(xacro_file).toxml()
 
     # Declare the world file argument
@@ -46,7 +46,7 @@ def generate_launch_description():
     # Node to spawn the robot entity in Gazebo
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                     arguments=['-topic', 'robot_description',
-                                '-entity', 'my_bot',
+                                '-entity', 'Mecanum_robots',
                                 '-x', '0',  # Set x position
                                 '-y', '0',  # Set y position
                                 '-z', '1'],  # Set z position (e.g., 1 meter above ground)],

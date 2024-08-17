@@ -4,6 +4,10 @@
 
   <xacro:include filename="material.xacro" />
 
+  <xacro:include filename="gazebo_control.xacro" />
+
+  <link name="base_link"></link>
+
   <link name="chasis">
     <inertial>
       <origin xyz="-8.294E-05 -7.7011E-11 -0.023972" rpy="0 0 0" />
@@ -13,17 +17,22 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/chasis.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/chasis.STL"/>
       </geometry>
       <material name="blue" />
     </visual>  
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/chasis.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/chasis.STL"/>
       </geometry>
     </collision>
   </link>
+  <joint name="chasis_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+    <parent link="base_link" />
+    <child link="chasis" />
+  </joint>
 
   <link name="back_right_wheel_link">
     <inertial>
@@ -34,14 +43,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/back_right_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/back_right_wheel.STL"/>
       </geometry>
       <material name="red" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/back_right_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/back_right_wheel.STL"/>
       </geometry>
     </collision>
   </link>
@@ -62,14 +71,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/back_left_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/back_left_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/back_left_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/back_left_wheel.STL"/>
       </geometry>
     </collision>
   </link>
@@ -90,14 +99,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/front_right_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/front_right_wheel.STL"/>
       </geometry>
       <material name="brown" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/front_right_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/front_right_wheel.STL"/>
       </geometry>
     </collision>
   </link>
@@ -118,14 +127,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/front_left_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/front_left_wheel.STL"/>
         <material name="violet" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find robot_package)/urdf/meshes/front_left_wheel.STL"/>
+        <mesh filename="file://$(find robot_package)/description/meshes/front_left_wheel.STL"/>
       </geometry>
     </collision>
   </link>

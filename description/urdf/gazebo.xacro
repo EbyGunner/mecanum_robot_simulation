@@ -1,27 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <gazebo reference="chasis">
-        <material>Gazebo/Green</material>
-    </gazebo>
-
-    <gazebo reference="back_right_wheel_link">
-        <material>Gazebo/Blue</material>
-    </gazebo>
-
-    <gazebo reference="back_left_wheel_link">
-        <material>Gazebo/Blue</material>
-    </gazebo>
-
-    <gazebo reference="front_right_wheel_link">
-        <material>Gazebo/Blue</material>
-    </gazebo>
-
-    <gazebo reference="front_left_wheel_link">
-        <material>Gazebo/Blue</material>
-    </gazebo>
-
-
     <gazebo>
         <plugin name="gazebo_ros_joint_state_publisher"
             filename="libgazebo_ros_joint_state_publisher.so">
@@ -42,7 +21,7 @@
     </gazebo>
 
     <joint name="camera_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="-0.25 0 0" rpy="0 0 ${math.pi}" />
         <parent link="chasis" />
         <child link="camera_link" />
     </joint>
@@ -50,15 +29,15 @@
     <link name="camera_link"></link>
 
     <gazebo reference="camera_link">
-        <sensor type="depth" name="my_camera">
-            <update_rate>9</update_rate>
+        <sensor type="camera" name="my_camera">
+            <update_rate>20</update_rate>
             <visualize>true</visualize>
             <camera name="cam">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
                     <width>640</width>
                     <height>480</height>
-                    <format>R8B8G8</format>
+                    <format>RGB8</format>
                 </image>
                 <clip>
                     <near>0.02</near>
