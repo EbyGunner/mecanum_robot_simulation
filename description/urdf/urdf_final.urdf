@@ -6,6 +6,12 @@
 
   <xacro:include filename="gazebo_control.xacro" />
 
+  <xacro:include filename="gazeboTransforms_update.xacro" />
+
+  <xacro:include filename="gazeboCamera.xacro" />
+
+  <xacro:include filename="gazeboLidar.xacro" />
+
   <link name="base_link"></link>
 
   <link name="chasis">
@@ -55,7 +61,7 @@
     </collision>
   </link>
   <joint name="back_right_wheel_joint" type="continuous">
-    <origin xyz="0.1175 0.113 -0.03" rpy="1.5708 -0.55618 3.1416" />
+    <origin xyz="0.1175 0.113 -0.03" rpy="${math.pi/2} 0 ${math.pi}" />
     <parent link="chasis" />
     <child link="back_right_wheel_link" />
     <axis xyz="0 0 1" />
@@ -83,7 +89,7 @@
     </collision>
   </link>
   <joint name="back_left_wheel_joint" type="continuous">
-    <origin xyz="0.1175 -0.113 -0.03" rpy="-1.5708 -1.0094 3.1416" />
+    <origin xyz="0.1175 -0.113 -0.03" rpy="-${math.pi/2} 0 ${math.pi}" />
     <parent link="chasis" />
     <child link="back_left_wheel_link" />
     <axis xyz="0 0 1" />
@@ -111,7 +117,7 @@
     </collision>
   </link>
   <joint name="front_right_wheel_joint" type="continuous">
-    <origin xyz="-0.1175 0.113 -0.03" rpy="1.5708 0.55618 3.1416" />
+    <origin xyz="-0.1175 0.113 -0.03" rpy="${math.pi/2} 0 ${math.pi}" />
     <parent link="chasis" />
     <child link="front_right_wheel_link" />
     <axis xyz="0 0 1" />
@@ -139,13 +145,11 @@
     </collision>
   </link>
   <joint name="front_left_wheel_joint" type="continuous">
-    <origin xyz="-0.1175 -0.113 -0.03" rpy="-1.5708 1.3416 3.1416" />
+    <origin xyz="-0.1175 -0.113 -0.03" rpy="-${math.pi/2} 0 ${math.pi}" />
     <parent link="chasis" />
     <child link="front_left_wheel_link" />
     <axis xyz="0 0 1" />
     <limit lower="-3.14" upper="3.14" effort="200" velocity="5" />
   </joint>
-
-  <xacro:include filename="gazebo.xacro" />
 
 </robot>
