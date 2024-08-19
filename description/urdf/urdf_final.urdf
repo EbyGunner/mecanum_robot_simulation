@@ -8,9 +8,11 @@
 
   <xacro:include filename="gazeboTransforms_update.xacro" />
 
-  <xacro:include filename="gazeboCamera.xacro" />
+  <!-- <xacro:include filename="gazeboCamera.xacro" /> -->
 
   <xacro:include filename="gazeboLidar.xacro" />
+
+  <xacro:include filename="gazeboDepthCamera.xacro" />
 
   <link name="base_link"></link>
 
@@ -35,7 +37,7 @@
     </collision>
   </link>
   <joint name="chasis_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="chasis" />
   </joint>
@@ -51,7 +53,7 @@
       <geometry>
         <mesh filename="file://$(find robot_package)/description/meshes/back_right_wheel.STL"/>
       </geometry>
-      <material name="red" />
+      <material name="green" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -107,7 +109,7 @@
       <geometry>
         <mesh filename="file://$(find robot_package)/description/meshes/front_right_wheel.STL"/>
       </geometry>
-      <material name="brown" />
+      <material name="green" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -134,7 +136,7 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file://$(find robot_package)/description/meshes/front_left_wheel.STL"/>
-        <material name="violet" />
+        <material name="green" />
       </geometry>
     </visual>
     <collision>
