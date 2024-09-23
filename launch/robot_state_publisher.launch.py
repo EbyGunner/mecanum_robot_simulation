@@ -1,62 +1,103 @@
 import os
-from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
-from launch_ros.actions import Node
 import xacro
-from launch.actions import IncludeLaunchDescription
+from pathlib import Path
+from ament_index_python.packages import get_package_share_directory
+
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
+from launch.actions import RegisterEventHandler, SetEnvironmentVariable
+from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
 
-    # Specify the name of the package and path to xacro file within the package
-    pkg_name = 'robot_package'
-    urdf_file_subpath = 'description/urdf'
+    package_path = get_package_share_directory('robot_package')
 
+    # Set gazebo sim resource path
+    gazebo_resource_path = SetEnvironmentVariable(
+        name='GZ_SIM_RESOURCE_PATH',
+        value=[
+            os.path.join(package_path, 'worlds'), ':' +
+            str(Path(package_path).parent.resolve())
+            ]
+        )
 
-    # Use xacro to process the file
-    xacro_file = os.path.join(get_package_share_directory(pkg_name), urdf_file_subpath, 'urdf_final.urdf')
-    robot_description_raw = xacro.process_file(xacro_file).toxml()
-
-    # Declare the world file argument
-    declare_world_cmd = DeclareLaunchArgument(
-        'world',
-        default_value=[os.path.join(get_package_share_directory(pkg_name), 'world', 'mecanum_world.world')],
-        description='Full path to the world file to load'
+    arguments = LaunchDescription([
+                DeclareLaunchArgument('world', default_value='/home/gunner/mecanum_robot/src/Mecanum_Robot_Simulation/world/mecanum_world',
+                          description='Gz sim World'),
+           ]
     )
 
-    # Configure the node for robot_state_publisher
+    gazebo = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('ros_gz_sim'), 'launch'), '/gz_sim.launch.py']),
+                launch_arguments=[
+                    ('gz_args', [LaunchConfiguration('world'),
+                                 '.sdf',
+                                 ' -v 4',
+                                 ' -r']
+                    )
+                ]
+             )
+
+    xacro_file = r'/home/gunner/mecanum_robot/src/Mecanum_Robot_Simulation/description/urdf/urdf_final.urdf'
+
+    doc = xacro.process_file(xacro_file, mappings={'use_sim' : 'true'})
+
+    robot_desc = doc.toprettyxml(indent='  ')
+
+    params = {'robot_description': robot_desc}
+    
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': robot_description_raw,
-                    'use_sim_time': True}] # add other parameters here if required
+        parameters=[params]
     )
 
-    # Include Gazebo launch file with the world file
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-        launch_arguments={'world': LaunchConfiguration('world')}.items(),
+    gz_spawn_entity = Node(
+        package='ros_gz_sim',
+        executable='create',
+        output='screen',
+        arguments=['-string', robot_desc,
+                   '-x', '1.0',
+                   '-y', '0.0',
+                   '-z', '0.07',
+                   '-R', '0.0',
+                   '-P', '0.0',
+                   '-Y', '0.0',
+                   '-name', 'mecanum_robot',
+                   '-allow_renaming', 'false'],
     )
 
-    # Node to spawn the robot entity in Gazebo
-    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-                    arguments=['-topic', 'robot_description',
-                                '-entity', 'Mecanum_robots',
-                                '-x', '0',  # Set x position
-                                '-y', '0',  # Set y position
-                                '-z', '1'],  # Set z position (e.g., 1 meter above ground)],
-                    output='screen')
+    # load_joint_state_controller = ExecuteProcess(
+    #     cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+    #          'joint_state_broadcaster'],
+    #     output='screen'
+    # )
 
+    # Bridge
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan'],
+        output='screen'
+    )
 
-    # Run the node
     return LaunchDescription([
-        declare_world_cmd,
+        # RegisterEventHandler(
+        #     event_handler=OnProcessExit(
+        #         target_action=gz_spawn_entity,
+        #         on_exit=[load_joint_state_controller],
+        #     )
+        # ),
+        gazebo_resource_path,
+        arguments,
         gazebo,
         node_robot_state_publisher,
-        spawn_entity
+        gz_spawn_entity,
+        bridge
     ])
