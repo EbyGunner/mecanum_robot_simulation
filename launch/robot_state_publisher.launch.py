@@ -4,9 +4,8 @@ from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
-from launch.actions import RegisterEventHandler, SetEnvironmentVariable
-from launch.event_handlers import OnProcessExit
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -14,7 +13,8 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    package_path = get_package_share_directory('robot_package')
+    package_path = get_package_share_directory('mecanum_robot_simulation')
+    bridge_params = os.path.join(package_path, 'config', 'mecanum_robot_waffle_bridge.yaml')
 
     # Set gazebo sim resource path
     gazebo_resource_path = SetEnvironmentVariable(
@@ -26,7 +26,8 @@ def generate_launch_description():
         )
 
     arguments = LaunchDescription([
-                DeclareLaunchArgument('world', default_value='/home/gunner/mecanum_robot/src/Mecanum_Robot_Simulation/world/mecanum_world',
+                DeclareLaunchArgument('world', default_value=os.path.join(package_path, 'world', 'mecanum_world'),
+                # DeclareLaunchArgument('world', default_value='/home/gunner/mecanum_robot/src/fws_robot_harmonic/src/fws_robot_sim/worlds/fws_robot_world.sdf',
                           description='Gz sim World'),
            ]
     )
@@ -43,7 +44,7 @@ def generate_launch_description():
                 ]
              )
 
-    xacro_file = r'/home/gunner/mecanum_robot/src/Mecanum_Robot_Simulation/description/urdf/urdf_final.urdf'
+    xacro_file = os.path.join(package_path, 'description', 'urdf', 'urdf_final.urdf')
 
     doc = xacro.process_file(xacro_file, mappings={'use_sim' : 'true'})
 
@@ -73,19 +74,22 @@ def generate_launch_description():
                    '-allow_renaming', 'false'],
     )
 
-    # load_joint_state_controller = ExecuteProcess(
-    #     cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-    #          'joint_state_broadcaster'],
-    #     output='screen'
-    # )
-
     # Bridge
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan'],
-        output='screen'
-    )
+    bridge = Node(package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=[
+                '--ros-args',
+                '-p',
+                f'config_file:={bridge_params}',
+            ],
+            output='screen',
+            )
+    
+    start_gazebo_ros_image_bridge_cmd = Node(package='ros_gz_image',
+                                            executable='image_bridge',
+                                            arguments=['/camera/image_raw'],
+                                            output='screen',
+                                        )
 
     return LaunchDescription([
         # RegisterEventHandler(
@@ -99,5 +103,6 @@ def generate_launch_description():
         gazebo,
         node_robot_state_publisher,
         gz_spawn_entity,
-        bridge
+        bridge,
+        start_gazebo_ros_image_bridge_cmd
     ])

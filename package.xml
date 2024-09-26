@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>robot_package</name>
+  <name>mecanum_robot_simulation</name>
   <version>0.0.0</version>
   <description>Mecanum wheel robot simulation</description>
   <maintainer email="ebyj23@gmail.com">Eby</maintainer>
@@ -16,6 +16,8 @@
   <depend>gz_utils_vendor</depend>
   <depend>gz_math_vendor</depend>
   <depend>ros_gz_sim</depend>
+  <depend>xacro</depend>
+  <depend>robot_state_publisher</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

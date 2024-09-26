@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(robot_package)
+project(mecanum_robot_simulation)
 
 
 # Default to C++14
@@ -20,6 +20,8 @@ find_package(gz-utils REQUIRED)
 find_package(gz_math_vendor REQUIRED)
 find_package(gz-math REQUIRED)
 find_package(ros_gz_sim)
+find_package(xacro REQUIRED)
+find_package(robot_state_publisher REQUIRED)
 
 # add_executable(test_gz_vendor main.cc)
 # target_link_libraries(test_gz_vendor PUBLIC gz-math::gz-math gz-utils::gz-utils)
@@ -40,8 +42,20 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(DIRECTORY launch description world config
-  DESTINATION share/${PROJECT_NAME}
+install(DIRECTORY launch/ 
+  DESTINATION share/${PROJECT_NAME}/launch
   )
+
+install(DIRECTORY description/
+  DESTINATION share/${PROJECT_NAME}/description
+  )
+
+install(DIRECTORY world/
+  DESTINATION share/${PROJECT_NAME}/world
+  )  
+
+install(DIRECTORY config/
+  DESTINATION share/${PROJECT_NAME}/config
+  )  
 
 ament_package()
