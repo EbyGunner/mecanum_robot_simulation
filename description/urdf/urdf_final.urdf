@@ -27,7 +27,7 @@
       </geometry>
     </collision>
   </link>
-  
+
   <link name="chasis">
     <inertial>
       <origin xyz="-8.294E-05 -7.7011E-11 -0.023972" rpy="0 0 0" />
@@ -37,7 +37,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mecanum_robot_simulation/description/meshes/chasis.STL"/>
+        <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/chasis.STL"/>
       </geometry>
       <material name="blue" />
     </visual>  
@@ -67,7 +67,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mecanum_robot_simulation/description/meshes/back_right_wheel.STL"/>
+        <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/back_right_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
@@ -95,7 +95,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mecanum_robot_simulation/description/meshes/back_left_wheel.STL"/>
+        <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/back_left_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
@@ -123,7 +123,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mecanum_robot_simulation/description/meshes/front_right_wheel.STL"/>
+        <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/front_right_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
@@ -151,7 +151,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mecanum_robot_simulation/description/meshes/front_left_wheel.STL"/>
+        <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/front_left_wheel.STL"/>
         <material name="green" />
       </geometry>
     </visual>

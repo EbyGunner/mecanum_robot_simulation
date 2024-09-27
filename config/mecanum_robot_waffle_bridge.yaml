@@ -53,3 +53,17 @@
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
   direction: GZ_TO_ROS
+
+# gz topic published by LIDAR sensor
+- ros_topic_name: "lidar"
+  gz_topic_name: "lidar"
+  ros_type_name: "sensor_msgs/msg/LaserScan"  # Adjust based on actual data type published by LIDAR
+  gz_type_name: "gz.msgs.LaserScan"  # Adjust based on the Gazebo message type
+  direction: GZ_TO_ROS
+
+# gz topic published by PointCloud plugin
+- ros_topic_name: "custom_params/pc2"
+  gz_topic_name: "pc2"
+  ros_type_name: "sensor_msgs/msg/PointCloud2" 
+  gz_type_name: "gz.msgs.PointCloud"  
+  direction: GZ_TO_ROS

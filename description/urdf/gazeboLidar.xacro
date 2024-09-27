@@ -33,42 +33,39 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </xacro:inertial_cylinder>
   
-    <gazebo reference="lidar_head_link">
-      <sensor name="lidar_head_link" type="gpu_lidar">
-        <always_on>true</always_on>
-        <visualize>true</visualize>
-        <pose relative_to='lidar_frame'>0 0 0 0 0 0</pose>
-        <update_rate>30</update_rate>
-        <gz_frame_id>lidar_head_link</gz_frame_id>
-        <topic>scan</topic>
+    <gazebo reference="lidar_frame">
+      <sensor name='gpu_lidar' type='gpu_lidar'>
+        <topic>lidar</topic> <!-- Ensure this matches the output from `gz topic -l` -->
+        <update_rate>10</update_rate>
         <lidar>
-            <scan>
-                <horizontal>
-                    <samples>640</samples>
-                    <resolution>1</resolution>
-                    <min_angle>-1.396263</min_angle>
-                    <max_angle>1.396263</max_angle>
-                </horizontal>
-                <vertical>
-                    <samples>1</samples>
-                    <resolution>0.01</resolution>
-                    <min_angle>0</min_angle>
-                    <max_angle>0</max_angle>
-                </vertical>
-            </scan>
-            <range>
-                <min>0.08</min>
-                <max>10.0</max>
-                <resolution>0.01</resolution>
-            </range>
-            <frame_id>/lidar_head_link</frame_id>
+          <scan>
+            <horizontal>
+              <samples>640</samples>
+              <resolution>1</resolution>
+              <min_angle>-1.396263</min_angle>
+              <max_angle>1.396263</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.08</min>
+            <max>10.0</max>
+            <resolution>0.01</resolution>
+          </range>
         </lidar>
+        <alwaysOn>1</alwaysOn>
+        <visualize>true</visualize>
+        <plugin filename="RosGzPointCloud" name="ros_gz_point_cloud::PointCloud">
+          <namespace>custom_params</namespace>
+          <topic>pc2</topic> <!-- This topic is for point cloud data -->
+          <frame_id>lidar_frame</frame_id> <!-- Make sure this matches the actual frame name -->
+        </plugin>
       </sensor>
-    </gazebo>
-    <gazebo>
-      <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
-        <render_engine>ogre2</render_engine>
-      </plugin>
     </gazebo>
   </link>
       
