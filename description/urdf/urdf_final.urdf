@@ -10,30 +10,24 @@
 
   <xacro:include filename="gazeboLidar.xacro" />
 
+  <xacro:include filename="material.xacro" />
+
   <!-- <xacro:include filename="gazeboDepthCamera.xacro" /> -->
 
-  <material name="red">
-    <color rgba="1 0 0 1"/>
-  </material>
-
-  <material name="blue">
-    <color rgba="0 0 1 1"/>
-  </material>
-
-  <material name="green">
-    <color rgba="0 1 0 1"/>
-  </material>
-
-  <material name="brown">
-    <color rgba="0.65 0.16 0.16 1"/>
-  </material>
-
-  <material name="violet">
-    <color rgba="0.56 0 1 1"/>
-  </material>
-
-  <link name="base_link"></link>
-
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.1" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+    <collision>
+      <origin xyz="0 0 0" />
+      <geometry>
+        <box size="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  
   <link name="chasis">
     <inertial>
       <origin xyz="-8.294E-05 -7.7011E-11 -0.023972" rpy="0 0 0" />
@@ -43,14 +37,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/chasis.STL"/>
+        <mesh filename="package://mecanum_robot_simulation/description/meshes/chasis.STL"/>
       </geometry>
       <material name="blue" />
     </visual>  
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 -0.025" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/chasis.STL"/>
+        <box size="0.50 0.40 0.05" />
       </geometry>
     </collision>
   </link>
@@ -59,6 +53,10 @@
     <parent link="base_link" />
     <child link="chasis" />
   </joint>
+
+  <gazebo reference='chasis_joint'>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
 
   <link name="back_right_wheel_link">
     <inertial>
@@ -69,14 +67,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/back_right_wheel.STL"/>
+        <mesh filename="package://mecanum_robot_simulation/description/meshes/back_right_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/back_right_wheel.STL"/>
+        <cylinder radius="0.029" length="0.039"/>
       </geometry>
     </collision>
   </link>
@@ -97,14 +95,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/back_left_wheel.STL"/>
+        <mesh filename="package://mecanum_robot_simulation/description/meshes/back_left_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/back_left_wheel.STL"/>
+        <cylinder radius="0.029" length="0.039"/>
       </geometry>
     </collision>
   </link>
@@ -125,14 +123,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/front_right_wheel.STL"/>
+        <mesh filename="package://mecanum_robot_simulation/description/meshes/front_right_wheel.STL"/>
       </geometry>
       <material name="green" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/front_right_wheel.STL"/>
+        <cylinder radius="0.029" length="0.039"/>
       </geometry>
     </collision>
   </link>
@@ -153,14 +151,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/front_left_wheel.STL"/>
+        <mesh filename="package://mecanum_robot_simulation/description/meshes/front_left_wheel.STL"/>
         <material name="green" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find mecanum_robot_simulation)/description/meshes/front_left_wheel.STL"/>
+        <cylinder radius="0.029" length="0.039"/>
       </geometry>
     </collision>
   </link>

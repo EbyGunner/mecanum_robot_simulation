@@ -27,8 +27,7 @@ def generate_launch_description():
 
     arguments = LaunchDescription([
                 DeclareLaunchArgument('world', default_value=os.path.join(package_path, 'world', 'mecanum_world'),
-                # DeclareLaunchArgument('world', default_value='/home/gunner/mecanum_robot/src/fws_robot_harmonic/src/fws_robot_sim/worlds/fws_robot_world.sdf',
-                          description='Gz sim World'),
+                description='Gz sim World'),
            ]
     )
 
