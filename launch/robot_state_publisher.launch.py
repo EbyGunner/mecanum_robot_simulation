@@ -51,12 +51,12 @@ def generate_launch_description():
 
     params = {'robot_description': robot_desc}
     
-    node_robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        output='screen',
-        parameters=[params]
-    )
+    # node_robot_state_publisher = Node(
+    #     package='robot_state_publisher',
+    #     executable='robot_state_publisher',
+    #     output='screen',
+    #     parameters=[params]
+    # )
 
     gz_spawn_entity = Node(
         package='ros_gz_sim',
@@ -76,17 +76,13 @@ def generate_launch_description():
     # Bridge
     bridge = Node(package='ros_gz_bridge',
             executable='parameter_bridge',
-            arguments=[
-                '--ros-args',
-                '-p',
-                f'config_file:={bridge_params}',
-            ],
+            arguments=[{'config_file': bridge_params},],
             output='screen',
             )
     
     start_gazebo_ros_image_bridge_cmd = Node(package='ros_gz_image',
                                             executable='image_bridge',
-                                            arguments=['/camera/image_raw'],
+                                            arguments=['/camera'],
                                             output='screen',
                                         )
 
@@ -100,7 +96,7 @@ def generate_launch_description():
         gazebo_resource_path,
         arguments,
         gazebo,
-        node_robot_state_publisher,
+        # node_robot_state_publisher,
         gz_spawn_entity,
         bridge,
         start_gazebo_ros_image_bridge_cmd
