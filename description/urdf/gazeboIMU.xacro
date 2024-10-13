@@ -3,7 +3,7 @@
 <robot name="Mecanum_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <joint name="imu_joint" type="fixed">
-        <origin xyz="0 0 0.02" rpy="0 0 0"/> <!-- Positioned 0.05m above the lidar -->
+        <origin xyz="0 0 0.01" rpy="0 0 0"/> <!-- Positioned 0.05m above the lidar -->
         <parent link="lidar_frame"/>
         <child link="imu_link"/>
     </joint>
