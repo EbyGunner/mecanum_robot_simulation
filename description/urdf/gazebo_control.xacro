@@ -2,22 +2,16 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <gazebo>
-        <plugin name="robot_control" filename="libgazebo_ros_diff_drive.so">
-            <left_joint>back_left_wheel_joint</left_joint>
-            <right_joint>back_right_wheel_joint</right_joint>
+        <plugin name="gz::sim::systems::MecanumDrive" filename="gz-sim-mecanum-drive-system">
+            <front_left_joint>front_left_wheel_joint</front_left_joint>
+            <front_right_joint>front_right_wheel_joint</front_right_joint>
+
+            <back_left_joint>back_left_wheel_joint</back_left_joint>
+            <back_right_joint>back_right_wheel_joint</back_right_joint>
 
             <wheel_separation>0.226</wheel_separation>
-            <wheel_diameter>0.058</wheel_diameter>
-
-            <wheel_torque>5.0</wheel_torque>
-            <max_wheel_acceleration>10.0</max_wheel_acceleration>
-
-            <odometry_frame>odom</odometry_frame>
-            <robot_base_frame>base_link</robot_base_frame>
-
-            <publish_odom>true</publish_odom>
-            <publish_odom_tf>true</publish_odom_tf>
-            <publish_wheel_tf>true</publish_wheel_tf>
+            <wheel_radius>0.029</wheel_radius>
+            <wheelbase>0.235</wheelbase>
 
         </plugin>
     </gazebo>

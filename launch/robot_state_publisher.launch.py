@@ -4,11 +4,11 @@ from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.actions import SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess, SetEnvironmentVariable, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
@@ -32,16 +32,17 @@ def generate_launch_description():
     )
 
     gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('ros_gz_sim'), 'launch'), '/gz_sim.launch.py']),
-                launch_arguments=[
-                    ('gz_args', [LaunchConfiguration('world'),
-                                 '.sdf',
-                                 ' -v 4',
-                                 ' -r']
-                    )
-                ]
-             )
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
+        launch_arguments=[
+            ('gz_args', [LaunchConfiguration('world'),
+                        '.sdf',
+                        ' -v 4',  # Verbose mode for logging
+                        ' -r']  # Starts the simulation in real-time mode
+            )
+        ]
+    )
+
 
     xacro_file = os.path.join(package_path, 'description', 'urdf', 'urdf_final.urdf')
 
@@ -50,13 +51,13 @@ def generate_launch_description():
     robot_desc = doc.toprettyxml(indent='  ')
 
     params = {'robot_description': robot_desc}
-    
-    # node_robot_state_publisher = Node(
-    #     package='robot_state_publisher',
-    #     executable='robot_state_publisher',
-    #     output='screen',
-    #     parameters=[params]
-    # )
+        
+    node_robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[params]
+    )
 
     gz_spawn_entity = Node(
         package='ros_gz_sim',
@@ -76,15 +77,24 @@ def generate_launch_description():
     # Bridge
     bridge = Node(package='ros_gz_bridge',
             executable='parameter_bridge',
-            arguments=[{'config_file': bridge_params},],
+            arguments=['--ros-args', '-p',
+                                  f'config_file:={bridge_params}'],
             output='screen',
             )
     
-    start_gazebo_ros_image_bridge_cmd = Node(package='ros_gz_image',
-                                            executable='image_bridge',
-                                            arguments=['/camera'],
-                                            output='screen',
-                                        )
+    # Bridge
+    # bridge = Node(
+    #     package='ros_gz_bridge',
+    #     executable='parameter_bridge',
+    #     arguments=['scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'],
+    #     output='screen'
+    # )
+
+    # start_gazebo_ros_image_bridge = Node(package='ros_gz_image',
+    #                                     executable='image_bridge',
+    #                                     arguments=['camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image'],
+    #                                     output='screen',
+    #                                 )
 
     return LaunchDescription([
         # RegisterEventHandler(
@@ -96,8 +106,8 @@ def generate_launch_description():
         gazebo_resource_path,
         arguments,
         gazebo,
-        # node_robot_state_publisher,
+        node_robot_state_publisher,
         gz_spawn_entity,
         bridge,
-        start_gazebo_ros_image_bridge_cmd
+        # start_gazebo_ros_image_bridge
     ])

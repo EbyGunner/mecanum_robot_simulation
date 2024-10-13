@@ -12,13 +12,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(gz_cmake_vendor REQUIRED)
-find_package(gz-cmake3 REQUIRED)
-find_package(gz_utils_vendor REQUIRED)
-find_package(gz-utils REQUIRED)
-find_package(gz_math_vendor REQUIRED)
-find_package(gz-math REQUIRED)
 find_package(ros_gz_sim)
 find_package(xacro REQUIRED)
 find_package(robot_state_publisher REQUIRED)
@@ -46,8 +39,8 @@ install(DIRECTORY launch/
   DESTINATION share/${PROJECT_NAME}/launch
   )
 
-install(DIRECTORY description/
-  DESTINATION share/${PROJECT_NAME}/description
+install(DIRECTORY description/urdf/
+  DESTINATION share/${PROJECT_NAME}/description/urdf
   )
 
 install(DIRECTORY world/

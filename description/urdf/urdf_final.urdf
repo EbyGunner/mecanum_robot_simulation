@@ -2,15 +2,13 @@
 
 <robot name="Mecanum_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- <xacro:include filename="gazebo_control.xacro" /> -->
+  <xacro:include filename="gazebo_control.xacro" />
 
-  <!-- <xacro:include filename="gazeboTransforms_update.xacro" />
+  <xacro:include filename="gazeboTransforms_update.xacro" />
 
-  <xacro:include filename="gazeboCamera.xacro" />
+  <!-- <xacro:include filename="gazeboCamera.xacro" /> -->
 
   <xacro:include filename="gazeboLidar.xacro" />
-
-  <xacro:include filename="material.xacro" /> -->
 
   <!-- <xacro:include filename="gazeboDepthCamera.xacro" /> -->
 
@@ -39,7 +37,9 @@
       <geometry>
         <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/chasis.STL"/>
       </geometry>
-      <material name="blue" />
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
     </visual>  
     <collision>
       <origin xyz="0 0 -0.025" rpy="0 0 0" />
@@ -69,7 +69,9 @@
       <geometry>
         <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/back_right_wheel.STL"/>
       </geometry>
-      <material name="green" />
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -97,7 +99,9 @@
       <geometry>
         <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/back_left_wheel.STL"/>
       </geometry>
-      <material name="green" />
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -125,7 +129,9 @@
       <geometry>
         <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/front_right_wheel.STL"/>
       </geometry>
-      <material name="green" />
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -152,8 +158,10 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file:///home/gunner/mecanum_robot/src/mecanum_robot_simulation/description/meshes/front_left_wheel.STL"/>
-        <material name="green" />
       </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -169,5 +177,30 @@
     <axis xyz="0 0 1" />
     <limit lower="-3.14" upper="3.14" effort="200" velocity="5" />
   </joint>
+
+  <gazebo reference="chasis">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="back_right_wheel_link">
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="front_left_wheel_link">
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="back_left_wheel_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="front_right_wheel_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
 
 </robot>
