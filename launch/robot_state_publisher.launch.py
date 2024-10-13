@@ -81,20 +81,14 @@ def generate_launch_description():
                                   f'config_file:={bridge_params}'],
             output='screen',
             )
-    
-    # Bridge
-    # bridge = Node(
-    #     package='ros_gz_bridge',
-    #     executable='parameter_bridge',
-    #     arguments=['scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'],
-    #     output='screen'
-    # )
 
-    # start_gazebo_ros_image_bridge = Node(package='ros_gz_image',
-    #                                     executable='image_bridge',
-    #                                     arguments=['camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image'],
-    #                                     output='screen',
-    #                                 )
+    start_gazebo_ros_image_bridge_cmd = Node(
+        package='ros_gz_image',
+        executable='image_bridge',
+        arguments=['/camera/image_raw'],
+        output='screen',
+    )
+
 
     return LaunchDescription([
         # RegisterEventHandler(
@@ -109,5 +103,5 @@ def generate_launch_description():
         node_robot_state_publisher,
         gz_spawn_entity,
         bridge,
-        # start_gazebo_ros_image_bridge
+        start_gazebo_ros_image_bridge_cmd
     ])

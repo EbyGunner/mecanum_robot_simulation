@@ -10,6 +10,8 @@
 
   <xacro:include filename="gazeboLidar.xacro" />
 
+  <xacro:include filename="gazeboIMU.xacro" />
+
   <!-- <xacro:include filename="gazeboDepthCamera.xacro" /> -->
 
   <link name="base_link">
