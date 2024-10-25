@@ -28,6 +28,25 @@
     </collision>
   </link>
 
+  <link name="base_footprint_link">
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <box size="0.235 0.226 0.001"/>  <!-- Adjust height if needed -->
+        </geometry>
+        <material name="yellow">
+            <color rgba="1 1 0 0.5"/> <!-- Semi-transparent yellow for visibility -->
+        </material>
+    </visual>
+</link>
+
+<!-- Joint to connect the footprint to the base link -->
+<joint name="base_footprint_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
   <link name="chasis">
     <inertial>
       <origin xyz="-8.294E-05 -7.7011E-11 -0.023972" rpy="0 0 0" />

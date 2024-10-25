@@ -4,7 +4,7 @@ from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess, SetEnvironmentVariable, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -89,6 +89,36 @@ def generate_launch_description():
         output='screen',
     )
 
+    rviz_config_file = os.path.join(
+        package_path,
+        'rviz',
+        'robot_view.rviz'
+    )
+
+    # Node to start RViz with the specified configuration
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="log",
+        arguments=["-d", rviz_config_file],
+    )
+
+    # Include the navigation launch file
+    navigation_node = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'config', 'navigation_launch.py'))
+    )
+
+    # Include the online async launch file
+    slam_node = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'config', 'online_async_launch.py'))
+    )
+
+    # Include the localization launch file
+    localization_node = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'config', 'localization_launch.py'))
+    )
+
 
     return LaunchDescription([
         # RegisterEventHandler(
@@ -103,5 +133,9 @@ def generate_launch_description():
         node_robot_state_publisher,
         gz_spawn_entity,
         bridge,
-        start_gazebo_ros_image_bridge_cmd
+        start_gazebo_ros_image_bridge_cmd,
+        rviz_node,
+        navigation_node,
+        slam_node,
+        localization_node
     ])

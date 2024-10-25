@@ -5,7 +5,6 @@
         <plugin name="gz::sim::systems::MecanumDrive" filename="gz-sim-mecanum-drive-system">
             <front_left_joint>front_left_wheel_joint</front_left_joint>
             <front_right_joint>front_right_wheel_joint</front_right_joint>
-
             <back_left_joint>back_left_wheel_joint</back_left_joint>
             <back_right_joint>back_right_wheel_joint</back_right_joint>
 
@@ -13,6 +12,13 @@
             <wheel_radius>0.029</wheel_radius>
             <wheelbase>0.235</wheelbase>
 
+            <!-- Set the odometry frame and child frame -->
+            <tf_topic>model/mecanum_robot/tf</tf_topic>
+            <frame_id>odom</frame_id>             <!-- Odometry frame -->
+            <child_frame_id>base_link</child_frame_id>  <!-- Robot's base frame -->
+
+            <!-- Optional: set odometry publish frequency -->
+            <odom_publish_frequency>50</odom_publish_frequency>  <!-- Adjust as needed -->
         </plugin>
     </gazebo>
 
