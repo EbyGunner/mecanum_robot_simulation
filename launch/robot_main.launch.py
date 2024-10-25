@@ -106,17 +106,17 @@ def generate_launch_description():
 
     # Include the navigation launch file
     navigation_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(package_path, 'config', 'navigation_launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'navigation_launch.py'))
     )
 
     # Include the online async launch file
     slam_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(package_path, 'config', 'online_async_launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'online_async_launch.py'))
     )
 
     # Include the localization launch file
     localization_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(package_path, 'config', 'localization_launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'localization_launch.py'))
     )
 
 

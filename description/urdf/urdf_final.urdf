@@ -4,8 +4,6 @@
 
   <xacro:include filename="gazebo_control.xacro" />
 
-  <xacro:include filename="gazeboTransforms_update.xacro" />
-
   <xacro:include filename="gazeboCamera.xacro" />
 
   <xacro:include filename="gazeboLidar.xacro" />
