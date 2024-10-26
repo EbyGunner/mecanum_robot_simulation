@@ -82,7 +82,7 @@ def generate_launch_description():
             output='screen',
             )
 
-    start_gazebo_ros_image_bridge_cmd = Node(
+    gazebo_ros_image_bridge = Node(
         package='ros_gz_image',
         executable='image_bridge',
         arguments=['/camera/image_raw'],
@@ -131,6 +131,6 @@ def generate_launch_description():
         node_robot_state_publisher,
         gz_spawn_entity,
         bridge,
-        start_gazebo_ros_image_bridge_cmd,
+        gazebo_ros_image_bridge,
         rviz_node,
     ])
