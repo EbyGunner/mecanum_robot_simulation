@@ -89,18 +89,14 @@ def generate_launch_description():
         output='screen',
     )
 
-    rviz_config_file = os.path.join(
-        package_path,
-        'rviz',
-        'robot_view.rviz'
-    )
+    rviz_config_file = os.path.join(package_path, 'rviz', 'robot_view.rviz')
 
     # Node to start RViz with the specified configuration
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        output="log",
+        output="screen",
         arguments=["-d", rviz_config_file],
     )
 
@@ -121,12 +117,14 @@ def generate_launch_description():
 
 
     return LaunchDescription([
-        # RegisterEventHandler(
-        #     event_handler=OnProcessExit(
-        #         target_action=gz_spawn_entity,
-        #         on_exit=[load_joint_state_controller],
-        #     )
-        # ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=gz_spawn_entity,
+                on_exit=[navigation_node, 
+                         localization_node, 
+                         slam_node],
+            )
+        ),
         gazebo_resource_path,
         arguments,
         gazebo,
@@ -135,7 +133,4 @@ def generate_launch_description():
         bridge,
         start_gazebo_ros_image_bridge_cmd,
         rviz_node,
-        navigation_node,
-        slam_node,
-        localization_node
     ])

@@ -16,7 +16,6 @@
 
         <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
             <topic>joint_states</topic>
-            <joint_name>base_footprint_joint</joint_name>
             <joint_name>back_right_wheel_joint</joint_name>
             <joint_name>back_left_wheel_joint</joint_name>
             <joint_name>front_right_wheel_joint</joint_name>
@@ -28,7 +27,7 @@
             <robot_base_frame>base_link</robot_base_frame>
             <odom_topic>odometry</odom_topic>
             <tf_topic>tf</tf_topic>
-            <odom_publisher_frequency>50</odom_publisher_frequency>
+            <odom_publisher_frequency>30</odom_publisher_frequency>
         </plugin>
 
     </gazebo>
