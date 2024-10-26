@@ -14,7 +14,7 @@ from launch.event_handlers import OnProcessExit
 def generate_launch_description():
 
     package_path = get_package_share_directory('mecanum_robot_simulation')
-    bridge_params = os.path.join(package_path, 'config', 'mecanum_robot_waffle_bridge.yaml')
+    bridge_params = os.path.join(package_path, 'config', 'gazeebo_ros_bridge.yaml')
 
     # Set gazebo sim resource path
     gazebo_resource_path = SetEnvironmentVariable(
