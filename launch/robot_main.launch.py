@@ -110,18 +110,12 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'online_async_launch.py'))
     )
 
-    # Include the localization launch file
-    localization_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'localization_launch.py'))
-    )
-
 
     return LaunchDescription([
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=gz_spawn_entity,
                 on_exit=[navigation_node, 
-                         localization_node, 
                          slam_node],
             )
         ),
