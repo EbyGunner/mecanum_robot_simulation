@@ -77,20 +77,6 @@ def generate_launch_description():
         condition=IfCondition(AndSubstitution(autostart, NotSubstitution(use_lifecycle_manager)))
     )
 
-    # Add map saver node
-    map_saver_node = Node(
-        package="nav2_map_server",
-        executable="map_saver_server",
-        name="map_saver",
-        output="screen",
-        parameters=[{
-            'use_sim_time': use_sim_time,  # Use simulation time
-            'save_map_timeout': 5.0,       # Interval for automatic save (seconds)
-            'map_topic': '/map',
-            'output_file': '/home/gunner/mecanum_robot/src/mecanum_robot_simulation/world/map'  # Specify the map save path
-        }]
-    )
-
     ld = LaunchDescription()
 
     ld.add_action(declare_autostart_cmd)
@@ -100,6 +86,5 @@ def generate_launch_description():
     ld.add_action(start_async_slam_toolbox_node)
     ld.add_action(configure_event)
     ld.add_action(activate_event)
-    ld.add_action(map_saver_node)
 
     return ld

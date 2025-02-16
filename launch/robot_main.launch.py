@@ -100,9 +100,18 @@ def generate_launch_description():
         arguments=["-d", rviz_config_file],
     )
 
+    slam_arg = DeclareLaunchArgument(
+        'slam',
+        default_value='True',
+        description='Whether to run SLAM'
+    )
+
     # Include the navigation launch file
     navigation_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'navigation_launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'navigation_launch.py')),
+        launch_arguments={
+            'slam': LaunchConfiguration('slam'),
+        }.items()
     )
 
     # Include the online async launch file
@@ -110,13 +119,13 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(package_path, 'launch', 'online_async_launch.py'))
     )
 
-
     return LaunchDescription([
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=gz_spawn_entity,
-                on_exit=[navigation_node, 
-                         slam_node],
+                on_exit=[slam_node,
+                         navigation_node
+                         ],
             )
         ),
         gazebo_resource_path,
@@ -127,4 +136,5 @@ def generate_launch_description():
         bridge,
         gazebo_ros_image_bridge,
         rviz_node,
+        slam_arg,
     ])
